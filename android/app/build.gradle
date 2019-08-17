@@ -74,8 +74,8 @@ dependencies {
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     // firebase ml kit
-    implementation 'com.google.firebase:firebase-ml-vision:21.0.0'
-    implementation 'com.google.firebase:firebase-ml-vision-automl:17.0.0'
+    implementation 'com.google.firebase:firebase-ml-vision:22.0.0'
+    implementation 'com.google.firebase:firebase-ml-vision-automl:18.0.0'
 
     // firebase performance
     implementation 'com.google.firebase:firebase-perf:18.0.1'

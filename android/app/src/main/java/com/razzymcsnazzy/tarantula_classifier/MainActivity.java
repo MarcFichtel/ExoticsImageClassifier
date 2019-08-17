@@ -14,7 +14,6 @@ import com.google.firebase.ml.common.modeldownload.FirebaseModelManager;
 import com.google.firebase.ml.common.modeldownload.FirebaseRemoteModel;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
-import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 import com.google.firebase.ml.vision.label.FirebaseVisionOnDeviceAutoMLImageLabelerOptions;
@@ -34,10 +33,7 @@ public class MainActivity extends FlutterActivity {
   private static final String CLASSIFY_START_METHOD = "startClassification";
   private static final String CLASSIFY_UPDATE_METHOD = "updateClassification";
   private static final String IMAGE_BYTES_ARG = "imageBytes";
-  private static final Float CONFIDENCE_THRESHOLD = 0.5f;
-//  private static final String PROJECT_ID = "tarantula-identifier";
-//  private static final String COMPUTE_REGION = "us-central1";
-//  private static final String MODEL_ID = "ICN4654330636948075705";
+  private static final Float CONFIDENCE_THRESHOLD = 0.1f;
 
 
   /**
@@ -54,7 +50,6 @@ public class MainActivity extends FlutterActivity {
         if (call.method.equals(CLASSIFY_START_METHOD)) {
           final byte[] imageBytes = call.argument(IMAGE_BYTES_ARG);
           classifyImageLocally(imageBytes);
-//          classifyImageOnline(imageBytes);
           result.success(true);
         } else {
           result.notImplemented();
@@ -64,46 +59,8 @@ public class MainActivity extends FlutterActivity {
       });
   }
 
-
-  // TODO how to use this code on android?
-//  private void classifyImageOnline(final byte[] imageBytes) throws IOException {
-//
-//    System.out.println("START");
-//
-//    // Instantiate client for prediction service.
-//    final PredictionServiceClient predictionClient = PredictionServiceClient.create();
-//
-//    System.out.println("DONE INIT PREDICTION SERVICE");
-//
-//    // Get the full path of the model.
-//    final ModelName name = ModelName.of(PROJECT_ID, COMPUTE_REGION, MODEL_ID);
-//
-//    System.out.println("DONE GETTING MODEL NAME");
-//
-//    // Read the image and assign to payload.
-//    final ByteString content = ByteString.copyFrom(imageBytes);
-//    final Image image = Image.newBuilder().setImageBytes(content).build();
-//    final ExamplePayload examplePayload = ExamplePayload.newBuilder().setImage(image).build();
-//
-//    System.out.println("DONE PREPPING IMAGE");
-//
-//    // Additional parameters that can be provided for prediction e.g. Score Threshold
-//    final Map<String, String> params = new HashMap<>();
-//    params.put("score_threshold", CONFIDENCE_THRESHOLD.toString());
-//    // Perform the AutoML Prediction request
-//    final PredictResponse response = predictionClient.predict(name, examplePayload, params);
-//
-//    System.out.println("Prediction results:");
-//    for (AnnotationPayload annotationPayload : response.getPayloadList()) {
-//      System.out.println("Predicted class name :" + annotationPayload.getDisplayName());
-//      System.out.println(
-//          "Predicted class score :" + annotationPayload.getClassification().getScore());
-//    }
-//  }
-
   /**
    * TODO
-   *   need to worry about image rotation???
    *   why are results so different from online results???
    *
    * Classify an image using a model on the Android device.
@@ -132,14 +89,7 @@ public class MainActivity extends FlutterActivity {
 
     // prepare image
     Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-    final int imageWidth = bitmap.getWidth();
-    final int imageHeight = bitmap.getHeight();
-    final FirebaseVisionImageMetadata metadata = new FirebaseVisionImageMetadata.Builder()
-        .setFormat(FirebaseVisionImageMetadata.IMAGE_FORMAT_NV21)
-        .setWidth(imageWidth)
-        .setHeight(imageHeight)
-        .build();
-    final FirebaseVisionImage image = FirebaseVisionImage.fromByteArray(imageBytes, metadata);
+    final FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bitmap);
 
     // get labeler
     final FirebaseVisionOnDeviceAutoMLImageLabelerOptions labelerOptions =

@@ -84,7 +84,6 @@ class _SpeciesIdentificationState extends State<SpeciesIdentification> {
   void _uploadImage() async {
     final File imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
     _startClassification(imageFile);
-
   }
 
   /// Start classifier - Update happens when classifier is done

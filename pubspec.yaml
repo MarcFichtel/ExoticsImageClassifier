@@ -1,37 +1,24 @@
-name: tarantula_classifier
-description: Classify tarantulas
+name: tarantula_identifier
+description: App to identify tarantulas
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons:      # Enable Cupertino Icons font
-
-  firebase_admob:       # Enable AdMob
-
-  image_picker:         # Enable image picker
-
-  path_provider:        # Enable storing and loading data (local file storage).
-
-  shared_preferences:   # Enable storing and loading data (local KVP storage).
-
-  uuid:                 # Enable generating UUIDs.
+  cupertino_icons:    # Enable Cupertino Icons font
+  firebase_admob:     # Enable AdMob
+  flutter_spinkit:    # Enable spinner
+  image_picker:       # Enable image picker
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
-# The following section is specific to Flutter.
 flutter:
   uses-material-design: true
   assets:
     - assets/
-    - graphics/

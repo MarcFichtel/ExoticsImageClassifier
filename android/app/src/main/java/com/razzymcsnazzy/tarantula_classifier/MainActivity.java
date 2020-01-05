@@ -60,9 +60,6 @@ public class MainActivity extends FlutterActivity {
   }
 
   /**
-   * TODO
-   *   why are results so different from online results???
-   *
    * Classify an image using a model on the Android device.
    * @param imageBytes of image to classify
    * @throws FirebaseMLException if there's an error getting the labeler

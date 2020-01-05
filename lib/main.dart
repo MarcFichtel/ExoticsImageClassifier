@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
-import 'screens/MyCollection.dart';
+import 'SpeciesIdentification.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  final String title = 'DeBug';
+  final String title = 'Tarantula Identifier';
 
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,7 +13,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepOrange,
         canvasColor: Colors.white,
       ),
-      home: MyCollection(),
+      home: SpeciesIdentification(),
     );
   }
 }

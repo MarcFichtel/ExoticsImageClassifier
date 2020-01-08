@@ -18,5 +18,5 @@ That being said...
 
 Model min100_20191228 was trained on 21 species using a total of 2587 images and has the following performance:
 
-![Model Performance](graphics/model_stats.jpg)
-![Online Classification of Majora the Curlyhair](graphics/majora_classification_online.jpg)
+![Model Performance](assets/model_stats.jpg)
+![Online Classification of Majora the Curlyhair](assets/majora_classification_online.jpg)

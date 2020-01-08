@@ -1,6 +1,6 @@
 name: tarantula_identifier
 description: App to identify tarantulas
-version: 1.0.0+1
+version: 1.0.2+2
 
 environment:
   sdk: ">=2.2.0 <3.0.0"
@@ -15,6 +15,7 @@ dependencies:
   image_picker:       # Enable image picker
 
 dev_dependencies:
+  flutter_launcher_icons:
   flutter_test:
     sdk: flutter
 
@@ -22,3 +23,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon.png"

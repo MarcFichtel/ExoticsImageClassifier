@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Tarantula Identifier Widget
 class SpeciesIdentification extends StatefulWidget {
@@ -25,6 +26,10 @@ class _SpeciesIdentificationState extends State<SpeciesIdentification> {
   static const _CLASSIFIER_CHANNEL = const MethodChannel('classifier');
   static const _START_CLASSIFY = 'startClassification';
   static const _DONE_CLASSIFY = 'doneClassification';
+
+  // Shared prefs used to read/write key value pairs to/from disk
+  SharedPreferences prefs;
+  final String _numClassificationsProp = 'numClassifications';
 
   // Text styles
   final TextStyle _headerStyle = TextStyle(color: Colors.white, fontSize: 20);
@@ -71,14 +76,20 @@ class _SpeciesIdentificationState extends State<SpeciesIdentification> {
   final String _admobAppId = 'ca-app-pub-7947218986556642~7207687470';
   final String _interstitialId = 'ca-app-pub-7947218986556642/3281323550';
   final String _testDevice = 'EBEC53C82AA4D5C4DF8D081E94AEAFBE';
-  final int _adPerClassificationsRate = 10;
+  final int _adPerClassificationsRate = 5;
   InterstitialAd _interstitialAd;
 
-  /// Init state incl admob
+  /// Init state incl admob and shared prefs
   void initState() {
     super.initState();
+
     FirebaseAdMob.instance.initialize(appId: _admobAppId);
     _interstitialAd = _createInterstitialAd()..load();
+
+    SharedPreferences.getInstance().then((prefs) {
+      this.prefs = prefs;
+      _numClassifications = prefs.getInt(_numClassificationsProp) ?? 0;
+    });
   }
 
   /// Dispose state incl admob
@@ -109,7 +120,18 @@ class _SpeciesIdentificationState extends State<SpeciesIdentification> {
 
   /// Choose an image from device gallery
   void _pickImage() async {
-    final File imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+    File imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    // https://pub.dev/packages/image_picker#handling-mainactivity-destruction-on-android
+    final LostDataResponse lostData = await ImagePicker.retrieveLostData();
+    print(lostData.toString());
+    if (lostData == null) {
+      print('Lost data null');
+      return;
+    }
+    else imageFile = lostData.file;
+    print('Lost data not null');
+
     _startClassify(imageFile);
   }
 
@@ -135,6 +157,7 @@ class _SpeciesIdentificationState extends State<SpeciesIdentification> {
 
     // show an interstitial if classifications per ad quota reached and load next
     _numClassifications++;
+    prefs.setInt(_numClassificationsProp, _numClassifications);
     if (_numClassifications % _adPerClassificationsRate == 0) {
       _interstitialAd..show();
       _interstitialAd = _createInterstitialAd()..load();

@@ -1,6 +1,6 @@
 name: tarantula_identifier
 description: App to identify tarantulas
-version: 1.0.2+2
+version: 1.0.3+1
 
 environment:
   sdk: ">=2.2.0 <3.0.0"
@@ -13,6 +13,7 @@ dependencies:
   firebase_admob:     # Enable AdMob
   flutter_spinkit:    # Enable spinner
   image_picker:       # Enable image picker
+  shared_preferences: # Enable shared prefs
 
 dev_dependencies:
   flutter_launcher_icons:

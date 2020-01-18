@@ -1,6 +1,6 @@
 name: tarantula_identifier
 description: App to identify tarantulas
-version: 1.0.3+1
+version: 1.0.3+3
 
 environment:
   sdk: ">=2.2.0 <3.0.0"
